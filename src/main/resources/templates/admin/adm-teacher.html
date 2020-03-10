@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>成绩</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+<body>
+
+<nav th:replace="admin/_fragments :: menu(3)"  class="ui inverted  segment">
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <h2 class="ui teal header item">CUMT</h2>
+            <h3 class="ui teal header item">在线答题系统</h3>
+            <a href="#" class=" active item ">教师</a>
+            <a href="#" class=" item ">学生</a>
+            <div class="right menu   ">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        Zhaohaihang
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="ui  container">
+    <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+        <i class="close icon "></i>
+        <div class="header">提示：</div>
+        <P th:text="${message}">操作成功</P>
+    </div>
+    <div  class="ui secondary segment form">
+        <input type="hidden" name="page">
+        <div class="three fields">
+            <div class=" required field">
+                <div class=" required field">
+                    <div class="ui left labeled input">
+                        <label class="ui teal basic label"> 姓名</label>
+                        <input type="text" name="teaname" placeholder="XXXXXX" class="input-box">
+                    </div>
+                </div>
+            </div>
+
+            <div class=" required field">
+                <div class=" required field">
+                    <div class="ui left labeled input">
+                        <label class="ui teal basic label"> 工号</label>
+                        <input type="text" name="teanum" placeholder="XXXXXX" class="input-box">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <button  id ="clear-btn" class="ui  button">清空</button>
+                <button type="button" id="search-btn" class="ui  orange basic button"><i class="search icon"></i>搜索</button>
+            </div>
+
+        </div>
+        <div class=" two fields">
+            <div class="filed">
+                <form action="/admin/importteacher" method="post" enctype="multipart/form-data">
+                    <div class="ui input">
+                        <input type="file" id="file" name="file" class="ui compact input" placeholder="" >
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="table-container">
+        <table class="ui celled compact teal table" th:fragment="teacherList">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>工号</th>
+            <th>密码</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="teacher,iterStat : ${page.content}">
+            <td th:text="${iterStat.count}">1</td>
+            <td th:text="${teacher.id}">156</td>
+            <td th:text="${teacher.name}">刘老师</td>
+            <td th:text="${teacher.teacherNum}">22150427</td>
+            <td  th:text="${teacher.password}">123456</td>
+            <td>
+                <a href="#" th:href="@{/admin/adm-teacher/{id}/input(id=${teacher.id})}" class="ui mini basic orange button">编辑</a>
+            </td>
+        </tr>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="10">
+                <div class="ui  mini  pagination menu" th:if="${page.totalPages}>1">
+                    <a  onclick="page(this)" th:attr="data-page=${page.number}-1" class=" item" th:unless="${page.first}">上一页</a>
+                    <a  onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item" th:unless="${page.last}">下一页</a>
+                </div>
+                <a href="" th:href="@{/admin/adm-teacher/input}" class="ui orange right floated mini basic button">新增</a>
+                <button type="button" id="" class="ui orange right floated mini basic button">批量导入</button>
+            </th>
+        </tr>
+
+        </tfoot>
+    </table>
+    </div>
+</div>
+
+<script>
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
+    $('#clear-btn')
+        .on('click', function() {
+            $('.input-box')
+                .val('');
+        });
+
+    $("#search-btn").click(function () {
+        $("[name='page']").val(0);
+        loaddata();
+    });
+    function loaddata() {
+        $("#table-container").load(/*[[@{/admin/adm-teacher/search}]]*/"/admin/adm-teacher/search",{
+            teaname : $("[name='teaname']").val(),
+            teanum : $("[name='teanum']").val(),
+            page : $("[name='page']").val()
+        });
+    };
+    function page(obj) {
+        $("[name='page']").val($(obj).data("page"));
+        loaddata();
+    };
+
+</script>
+
+</body>
+</html>

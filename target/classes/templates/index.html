@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+</head>
+<body>
+<nav class="ui inverted  segment">
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <h2 class="ui teal header item">CUMT</h2>
+            <h3 class="ui teal header item">在线答题系统</h3>
+        </div>
+    </div>
+</nav>
+
+
+<div class="ui middle aligned center aligned grid container" >
+    <div class="column" style="max-width: 30em;">
+        <h2 class="ui teal image header">
+            <div class="content">
+                CUMT在线答题系统
+            </div>
+        </h2>
+        <form id="login-form" class="ui large form" method="post" action="">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="username" placeholder="用户名">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="密码">
+                    </div>
+                </div>
+                <div class="inline fields">
+                    <label for="type">类别</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="type" checked="" tabindex="0" class="hidden">
+                            <label>学生</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="type" tabindex="0" class="hidden">
+                            <label>老师</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="type" tabindex="0" class="hidden">
+                            <label>管理员</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="inline field">
+                    <button class="ui  teal submit button"  >登录</button>
+                    <button class="ui  teal  button" type="reset">重置</button>
+                </div>
+
+                <div class="ui error mini message"></div>
+                <div class="ui  negative mini message" th:unless="${#strings.isEmpty(message)}" th:text="${message}" ></div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script>
+    $('.ui.radio.checkbox')
+        .checkbox();
+
+    $(".ui.submit.button").click(function(){
+        var frm = $("#login-form");
+        var type = $("[name=type]");
+        var password=$("[name=password]");
+        var username=$("[name=username]")
+        if(password == ""||username == "") {
+            alert("请输入用户名或密码");
+        }
+        else {//验证身份信息
+            if (type[0].checked) {
+                frm.attr("action", "/student/stu-login");
+                frm.submit();
+            }
+            else if (type[1].checked) {
+                frm.attr("action", "/teacher/tea-login");
+                frm.submit();
+            }
+            else if (type[2].checked) {
+                frm.attr("action", "/admin/adm-login");
+                frm.submit();
+            }
+        }
+        return false;
+    });
+
+</script>
+</body>
+</html>

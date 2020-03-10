@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>回顾试卷</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+</head>
+<body>
+<nav th:replace="student/_fragments :: menu(3)" class="ui inverted  segment">
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <h2 class="ui teal header item">CUMT</h2>
+            <h3 class="ui teal header item">在线答题系统</h3>
+            <a href="#" class="  item ">未完成试卷</a>
+            <a href="#" class="active item ">已完成试卷</a>
+
+            <div class="right menu   ">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        Zhaohaihang
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="ui stacked container">
+    <div class="ui top attached segment">
+        <h3 class="ui teal center aligned header" th:text="${paper.name}">第一章练习题</h3>
+        <div class="ui padded center aligned stackable grid">
+            <div class="item">
+                开始时间：<span th:text="${paper.startTime}">2019-09-28</span>
+            </div>
+            <div class="item">
+                结束时间：<span th:text="${paper.endTime}">2019-09-28</span>
+            </div>
+            <div class="item">
+                共<span th:text="${paper.totalScore}">100</span>分
+            </div>
+            <div class="item">
+                共<span th:text="${paper.totalQue}" >100</span>题
+            </div>
+            <div class="item">
+                得分：<span th:text="${studentpaper.score}">100</span>分
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ui segment">
+        <div class="ui form">
+            <h4 class="ui red dividing header">选择题</h4>
+
+            <div class="ui stackable grid" th:each="selectmap,selectStat : ${selectquestionmap}">
+                <div class="ui column">
+                    <div class="ui  row">
+                        <label class=""><i class="ui hand point right outline icon"></i>
+                            第<span class="" th:text="${selectStat.count}">1</span>题（<span th:text="${selectmap.key.score}">5</span>分）
+                        </label>
+                        <i class="ui " th:classappend="${selectmap.value.correct} eq 1 ? 'green checkmark icon' : ' red close icon  '"></i>
+                    </div>
+                    <div class="ui row">
+                        <p th:text="${selectmap.key.content}">qidasldkfasdkljf;aslkdf;alksd 1+1=___</p>
+                    </div>
+                    <div class="ui row">
+                        <div class="grouped fields">
+                            <label >选择答案：</label>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="answer" class="hidden">
+                                    <label>A：<span th:text="${selectmap.key.choiceA}">1</span></label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="answer"  class="hidden">
+                                    <label>B：<span th:text="${selectmap.key.choiceB}">2</span></label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="answer"  class="hidden">
+                                    <label>C：<span th:text="${selectmap.key.choiceC}">3</span></label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="answer"  class="hidden">
+                                    <label>D：<span th:text="${selectmap.key.choiceD}">4</span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui row">
+                        <label >你的答案：<span th:text="${selectmap.value.answer}">错误</span></label>
+                    </div>
+                    <div class="ui row">
+                        <label >正确答案：<span th:text="${selectmap.key.choiceAnswer}">B</span></label>
+                    </div>
+                    <div class="ui row">
+                        <label >解析：</label>
+                        <p th:text="${selectmap.key.explan}">dfgsdfgasdfgasdfgasd</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="ui red dividing header">判断题</h4>
+            <div class="ui grid" th:each="checkmap,checkStat : ${checkquestionmap}">
+                <div class="ui column">
+                    <div class="ui  row">
+                        <label class=""><i class="ui hand point right outline icon"></i>
+                            第<span  th:text="${checkStat.count}">1</span>题（<span th:text="${checkmap.key.score}">5</span>分）</label>
+                        <i class="ui " th:classappend="${checkmap.value.correct} eq 1 ? 'green checkmark icon' : ' red close icon  '"></i>
+                    </div>
+                    <div class="ui row">
+                        <p th:text="${checkmap.key.content}">qidasldkfasdkljf;aslkdf;alksd 1+1=___</p>
+                    </div>
+                    <div class="ui row">
+                        <div class="grouped fields">
+                            <label >选择答案：</label>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="answer"  class="hidden">
+                                    <label>正确</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="answer"  class="hidden">
+                                    <label>错误</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui row">
+                        <label >你的答案：<span th:text="${checkmap.value.answer}">错误</span></label>
+                    </div>
+                    <div class="ui row">
+                        <label >正确答案：<span th:text="${checkmap.key.checkAnswer}">错误</span></label>
+                    </div>
+                    <div class="ui row">
+                        <label for="">解析：</label>
+                        <p th:text="${checkmap.key.explan}">dfgsdfgasdfgasdfgasd</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="ui red dividing header">填空题</h4>
+            <div class="ui grid" th:each="blankmap,blankStat : ${blankquestionmap}">
+                <div class="ui column">
+                    <div class="ui  row">
+                        <label class=""><i class="ui hand point right outline icon"></i>
+                            第<span  th:text="${blankStat.count}">1</span>题（<span th:text="${blankmap.key.score}">5</span>分）</label>
+                        <i class="ui "  th:classappend="${blankmap.value.correct} eq 1 ? 'green checkmark icon' : ' red close icon  '"></i>
+                    </div>
+                    <div class="ui row">
+                        <p th:text="${blankmap.key.content}">qidasldkfasdkljf;aslkdf;alksd 1+1=___</p>
+                    </div>
+
+                    <div class="ui row">
+                        <div class="grouped fields">
+                            <label >你的答案：</label>
+                            <div class="ui disabled  input">
+                                <input type="text" placeholder="" class="disabled" value="123345" th:value="${blankmap.value.answer}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui row">
+                        <label for="">正确答案：<span th:text="${blankmap.key.answerA}">B</span></label>
+                        <span th:text="${blankmap.key.answerB}">B</span>
+                        <span th:text="${blankmap.key.answerC}">B</span>
+                    </div>
+                    <div class="ui row">
+                        <label for="">解析：</label>
+                        <p th:text="${blankmap.key.explan}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui right aligned container">
+        <a class="ui  button " th:href="@{/student/stu-comp-paper}" >返回</a>
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<script>
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+</script>
+</body>
+</html>

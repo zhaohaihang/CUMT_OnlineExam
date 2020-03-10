@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>试卷</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="/layui/layui.all.js"></script>
+</head>
+<body>
+<nav th:replace="teacher/_fragments :: menu(4)" class="ui inverted  segment">
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <h2 class="ui teal header item">CUMT</h2>
+            <h3 class="ui teal header item">在线答题系统</h3>
+            <a href="#" class="  item ">章节</a>
+            <a href="#" class=" item ">知识点</a>
+            <a href="#" class=" item ">题目</a>
+            <a href="#" class="active item ">试卷</a>
+            <a href="#" class=" item ">成绩</a>
+
+            <div class="right menu   ">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        Zhaohaihang
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="ui container">
+    <div  class="ui form" th:object="${paper}">
+        <div class=" required field">
+            <div class="ui labeled disabled input">
+                    <div class="ui label">名称</div>
+                    <input id="paper-name" type="text" placeholder="试卷名称" name="papername" th:value="*{name}">
+            </div>
+        </div>
+
+        <div class="ui field">
+            <div class="ui four column  grid">
+                <div class="ui  column">
+                    <div class="inline field">
+                        <div class="ui labeled disabled input">
+                            <div class="ui label">接收年级</div>
+                            <input type="text" placeholder="接收年级" th:value="*{grade}">
+                        </div>
+                    </div>
+                </div>
+                <div class="ui  column">
+                    <div class="inline field">
+                        <div class="ui labeled  disabled input">
+                            <div class="ui  label">试卷号</div>
+                            <input type="text" placeholder="试卷号" th:value="*{id}">
+                        </div>
+                    </div>
+                </div>
+                <div class="ui  column">
+                    <div class="inline field">
+                        <div class="ui labeled disabled input">
+                            <div class="ui label">开始时间</div>
+                            <input type="text" placeholder="开始时间" th:value="*{startTime}">
+                        </div>
+                    </div>
+                </div>
+                <div class="ui column">
+                    <div class="inline field">
+                        <div class="ui labeled disabled input">
+                            <div class="ui label">结束时间</div>
+                            <input type="text" placeholder="结束时间" th:value="*{endTime}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui two fields">
+            <div class="ui field">
+                <div class="ui two statistics">
+                    <div class="ui horizontal statistic">
+                        <div class="label">共</div>
+                        <div class="value" ><span class="" th:text="${paper.totalQue}">22</span></div>
+                        <div class="label">题</div>
+                    </div>
+                    <div class="ui horizontal statistic">
+                        <div class="label">共</div>
+                        <div class="value"><span class="" th:text="${paper.totalScore}">22</span></div>
+                        <div class="label">分</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui right floated  fields">
+                <div class="ui  field">
+                    <button  id="add-question" class="ui orange button "
+                             th:data-thing = "${paper.id}" onclick = "addqestion(this.getAttribute('data-thing'));" >添加题目</button>
+                </div>
+                <div class="ui  field">
+                    <a th:href="@{/teacher/tea-paper/{id}/question-input(id=${paper.id})}"  class="ui orange button ">刷新</a>
+                </div>
+                <div class="ui  field">
+                    <a th:href="@{/teacher/tea-paper}"  class="ui orange button ">完成</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+<div class="ui  container">
+       <div id="table-container">
+        <table class="ui celled compact teal table" >
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>ID</th>
+                <th>类型</th>
+                <th>难度</th>
+                <th>章节</th>
+                <th>知识点</th>
+                <th>分数</th>
+                <th>创建人</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question,iterStat : ${paper.questions}">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${question.id}">124</td>
+                <td th:text="${question.type}">选择题</td>
+                <td ><div class="ui disable star rating" th:data-rating="${question.diffcult}" th:data-max-rating="${question.diffcult}"></div></td>
+                <td th:text="${question.chapter.chapterNum}">第一章</td>
+                <td ><div class="ui mini basic orange label" th:each="point : ${question.points}" th:text="${point.name}">数组</div></td>
+                <td th:text="${question.score}">124</td>
+                <td th:text="${question.teacher.name}">刘老师</td>
+                <td th:text="${#dates.format(question.updateTime,'yyyy-MM-dd HH:MM')}">2019-12-12 12:12</td>
+                <td>
+                    <div  class="ui popup flowing  transition hidden">
+                        <textarea name=""  id="t1" th:id="t+(${iterStat.count})" cols="30" rows="10" th:text="${question.content}">11111 1+1=几</textarea>
+                    </div>
+                    <button  class="ui seeButton mini basic teal button"  th:data-thing = "${iterStat.count}"
+                             onclick = "f(this.getAttribute('data-thing'));" >查看</button>
+                    <a href="#" th:href="@{/teacher/tea-question/{paperid}/{questionid}/deletetopaper(paperid=${paper.id},questionid=${question.id})}" class="ui mini basic red button"
+                       >删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<script>
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
+    function f(idd){
+        console.log("asd");
+        var text1 ='#t'+idd;
+        layer.open({
+            type: 1,
+            title: '题目详情',
+            area: ['600px', '360px'],
+            shadeClose: true, //点击遮罩关闭
+            content: $(text1).val(),
+            //content: $("#testtable")
+        });
+    };
+
+    function addqestion(paperid){
+        console.log(paperid);
+        parent.layer.open({
+            type: 2,
+            title: '选题',
+            maxmin: true,
+            shadeClose: true, //点击遮罩关闭层
+            area : ['1200px' , '1000px'],
+            content: 'tea-paper-question',
+            end:function() {
+                location.reload();
+            }
+        });
+    };
+
+    $('.ui.rating')
+        .rating('disable');
+
+</script>
+</body>
+</html>

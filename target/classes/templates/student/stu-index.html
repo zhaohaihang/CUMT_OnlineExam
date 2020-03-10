@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>已完成试卷</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+</head>
+<body>
+<nav th:replace="student/_fragments :: menu(1)" class="ui inverted  segment">
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <h2 class="ui teal header item">CUMT</h2>
+            <h3 class="ui teal header item">在线答题系统</h3>
+            <a href="#" class="  item ">未完成试卷</a>
+            <a href="#" class="active item ">已完成试卷</a>
+
+            <div class="right menu   ">
+                <div class="ui dropdown item">
+                    <div class="text">
+<!--                        <img src="https://unsplash.it/100/100?image=1005" alt="" class="ui avatar image">-->
+                        Zhaohaihang
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="ui header">欢迎学生</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<script>
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+</script>
+</body>
+</html>

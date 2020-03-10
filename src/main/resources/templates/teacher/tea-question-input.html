@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>题目</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+</head>
+<body>
+<nav  th:replace="teacher/_fragments :: menu(3)" class="ui inverted  segment">
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <h2 class="ui teal header item">CUMT</h2>
+            <h3 class="ui teal header item">在线答题系统</h3>
+            <a href="#" class="  item ">章节</a>
+            <a href="#" class=" item ">知识点</a>
+            <a href="#" class=" item ">题目</a>
+            <a href="#" class=" item ">试卷</a>
+            <a href="#" class=" item ">成绩</a>
+
+            <div class="right menu   ">
+                <div class="ui dropdown item">
+                    <div class="text">
+                         Zhaohaihang
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="ui stackable container">
+    <form  id="" action="#" th:action=" @{/teacher/tea-question-input}" th:object="${question}"  method="post" class="ui  form">
+        <div class=" required field">
+            <input type="hidden" name="id" th:value="*{id}">
+            <div class="ui left labeled action  input">
+                <div class="ui  compact  orange basic label">类型</div>
+                <div class="ui fluid selection dropdown ">
+                    <input  id="que-type" type="hidden" name="type" th:value="*{type}" >
+                    <i class="dropdown icon"></i>
+                    <div class=" default text ">类型</div>
+                    <div class="menu">
+                        <div class="item" data-value="选择题">选择题</div>
+                        <div class="item" data-value="判断题">判断题</div>
+                        <div class="item" data-value="填空题">填空题</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="required field">
+            <textarea name="content"  placeholder="题目内容" maxlength="200" th:text="*{content}"></textarea>
+        </div>
+
+        <div   class="ui three column  padded stackable grid">
+            <div id="select-que" class="ui column" th:classappend="${question.type} eq '选择题' ? 'transition show' : 'transition hidden'">
+                <div class=" grouped  field">
+                    <div class="inline field">
+                        <div class="ui  labeled input">
+                            <div class="ui  label">A</div>
+                            <input type="text" placeholder="选项A" name="choiceA" th:value="*{choiceA}">
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="ui labeled input">
+                            <div class="ui label">B</div>
+                            <input type="text" placeholder="选项B" name="choiceB" th:value="*{choiceB}">
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="ui labeled input">
+                            <div class="ui label">C</div>
+                            <input type="text" placeholder="选项C" name="choiceC" th:value="*{choiceC}">
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="ui  labeled input">
+                            <div class="ui label">D</div>
+                            <input type="text" placeholder="选项D" name="choiceD" th:value="*{choiceD}">
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="ui left labeled action  input">
+                            <div class="ui label">选择题答案</div>
+                            <div class="ui  selection   dropdown ">
+                                <input type="hidden" value="A" name="choiceAnswer" th:value="*{choiceAnswer}" class="">
+                                <i class="dropdown icon"></i>
+                                <div class=" default text ">答案</div>
+                                <div class="menu">
+                                    <div  class="item"  data-value="A">A</div>
+                                    <div class="item" data-value="B">B</div>
+                                    <div  class="item"  data-value="C">C</div>
+                                    <div class="item" data-value="D">D</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="check-que" class="ui  column" th:classappend="${question.type} eq '判断题' ? 'transition show' : 'transition hidden'">
+                <div class="  field">
+                    <div class="ui left labeled action  input">
+                        <div class="ui label">判断题答案</div>
+                        <div class="ui  selection   dropdown ">
+                            <input type="hidden" value="正确" name="checkAnswer" th:value="*{checkAnswer}" class="">
+                            <i class="dropdown icon"></i>
+                            <div class=" default text ">答案</div>
+                            <div class="menu">
+                                <div  class="item"  data-value="正确">正确</div>
+                                <div class="item" data-value="错误">错误</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="blank-que" class="ui right  aligned  column" th:classappend="${question.type} eq '填空题' ? 'transition show' : 'transition hidden'">
+                <div class=" grouped  field">
+                    <div class="inline field">
+                        <div class="ui labeled input">
+                            <div class="ui  label">答案一</div>
+                            <input type="text" placeholder="答案一" name="answerA" th:value="*{answerA}">
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="ui labeled input">
+                            <div class="ui label">答案二</div>
+                            <input type="text" placeholder="答案二" name="answerB" th:value="*{answerB}">
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="ui labeled  input">
+                            <div class="ui label">答案三</div>
+                            <input type="text" placeholder="答案三" name="answerC" th:value="*{answerC}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="required field">
+            <textarea  placeholder="题目解析" maxlength="200" name="explan" th:text="*{explan}"> </textarea>
+        </div>
+
+        <div class="two fields">
+            <div class=" required field">
+                <div class="ui left labeled action  input">
+                    <div class="ui  compact  teal basic label">章节</div>
+                    <div class="ui fluid selection   dropdown ">
+                        <input type="hidden" name="chapter.id" th:value="*{chapter}!=null ? *{chapter.id}" >
+                        <i class="dropdown icon"></i>
+                        <div class=" default text ">章节</div>
+                        <div class="menu">
+                            <div  th:each="chapter : ${chapters}"  class="item"  data-value="1" th:data-value="${chapter.id}" th:text="${chapter.chapterNum}">错误日志</div>
+<!--                            <div class="item" data-value="1">第一章</div>-->
+<!--                            <div class="item" data-value="2">第二章</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class=" required field">
+                <div class="ui left labeled action  input">
+                    <div class="ui  compact  teal basic label">难度</div>
+                    <div class="ui fluid selection  dropdown ">
+                        <input type="hidden" name="diffcult" th:value="*{diffcult}" >
+                        <i class="dropdown icon"></i>
+                        <div class=" default text ">难度</div>
+                        <div class="menu">
+                            <div class="item" data-value="1"><div class="ui disable star rating" data-rating="1" data-max-rating="1"></div></div>
+                            <div class="item" data-value="2"><div class="ui disable star rating" data-rating="2" data-max-rating="2"></div></div>
+                            <div class="item" data-value="3"><div class="ui disable star rating" data-rating="3" data-max-rating="3"></div></div>
+                            <div class="item" data-value="4"><div class="ui disable star rating" data-rating="4" data-max-rating="4"></div></div>
+                            <div class="item" data-value="5"><div class="ui disable star rating" data-rating="5" data-max-rating="5"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui two fields">
+            <div class="ui field">
+                <div class="ui left  labeled action   input">
+                    <div class="ui   compact  teal basic label">知识点</div>
+                    <div class="ui fluid  selection multiple search dropdown ">
+                        <input type="hidden" name="pointIds" th:value="*{pointIds}">
+                        <i class="dropdown icon"></i>
+                        <div class=" default text ">知识点</div>
+                        <div class="menu">
+                            <div  th:each="point : ${points}"  class="item"  data-value="1" th:data-value="${point.id}" th:text="${point.name}">错误日志</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class=" required field">
+                <input type="hidden" name="id" >
+                <div class=" required field">
+                    <div class="ui left labeled input">
+                        <label class="ui teal basic label"> 分数</label>
+                        <input type="text" name="score" placeholder="XXXXXX" th:value="*{score}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui error message">
+
+        </div>
+
+        <div class="ui right aligned container">
+            <button class="ui button " type="button" onclick="window.history.go(-1)">返回</button>
+            <button type="submit"  class="ui orange button ">提交</button>
+        </div>
+    </form>
+
+    <br>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<script>
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
+    $("#que-type").change(function () {
+        var temp=$("#que-type").val();
+        if (temp=="选择题"){
+            $("#select-que").transition("show");
+            $("#check-que").transition("hide");
+            $("#blank-que").transition("hide");
+        }else if(temp=="判断题"){
+            $("#select-que").transition("hide");
+            $("#check-que").transition("show");
+            $("#blank-que").transition("hide");
+        }else{
+            $("#select-que").transition("hide");
+            $("#check-que").transition("hide");
+            $("#blank-que").transition("show");
+        }
+        console.log(temp)
+    });
+    $('.ui.rating')
+        .rating('disable');
+
+
+</script>
+</body>
+</html>

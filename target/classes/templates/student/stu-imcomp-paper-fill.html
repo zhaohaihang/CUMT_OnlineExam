@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>做试卷</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+</head>
+<body>
+<nav th:replace="student/_fragments :: menu(2)" class="ui inverted  segment">
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <h2 class="ui teal header item">CUMT</h2>
+            <h3 class="ui teal header item">在线答题系统</h3>
+            <a href="#" class=" active item ">未完成试卷</a>
+            <a href="#" class=" item ">已完成试卷</a>
+
+            <div class="right menu   ">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        Zhaohaihang
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="ui container">
+    <div class="ui top attached segment">
+        <h3 class="ui teal center aligned header" th:text="${paper.name}">第一章练习题</h3>
+        <div class="ui padded center aligned grid">
+            <div class="item">
+                开始时间：<span th:text="${paper.startTime}">2019-09-28</span>
+            </div>
+            <div class="item">
+                结束时间：<span th:text="${paper.endTime}">2019-09-28</span>
+            </div>
+            <div class="item">
+                共<span th:text="${paper.totalScore}">100</span>分
+            </div>
+            <div class="item">
+                共<span th:text="${paper.totalQue}">100</span>题
+            </div>
+        </div>
+    </div>
+
+    <div class="ui segment">
+        <h4 class="ui red dividing header">选择题</h4>
+        <div class="ui grid" th:each="selectquestion,selectStat : ${selectquestions}">
+            <div class="ui column">
+                <div class="ui row">
+                    <label class=""><i class="ui hand point right outline icon"></i>
+                        第<span class="" th:text="${selectStat.count}">1</span>题（<span th:text="${selectquestion.score}">5</span>分）
+                    </label>
+                </div>
+                <div class="ui row">
+                    <p th:text="${selectquestion.content}">qidasldkfasdkljf;aslkdf;alksd 1+1=___</p>
+                </div>
+                <div class="ui row">
+                    <div class="grouped fields">
+                        <label for="answer">选择答案：</label>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="answer" th:name="'x'+${selectStat.count}+'id'+${selectquestion.id}" class="selectradio hidden"
+                                    th:value="${selectquestion.id}+'#A'">
+                                <label>A：<span th:text="${selectquestion.choiceA}">1</span></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="answer" th:name="'x'+${selectStat.count}+'id'+${selectquestion.id}" class="selectradio hidden"
+                                       th:value="${selectquestion.id}+'#B'">
+                                <label>B：<span th:text="${selectquestion.choiceB}">2</span></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="answer" th:name="'x'+${selectStat.count}+'id'+${selectquestion.id}"class="selectradio hidden"
+                                       th:value="${selectquestion.id}+'#C'">
+                                <label>C：<span th:text="${selectquestion.choiceC}">3</span></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="answer" th:name="'x'+${selectStat.count}+'id'+${selectquestion.id}" class="selectradio hidden"
+                                       th:value="${selectquestion.id}+'#D'">
+                                <label>D：<span th:text="${selectquestion.choiceD}">4</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="ui red dividing header">判断题</h4>
+        <div class="ui grid" th:each="checkquestion,checkStat : ${checkquestions}">
+            <div class="ui column">
+                <div class="ui  row">
+                    <label class=""><i class="ui hand point right outline icon"></i>
+                        第<span class="" th:text="${checkStat.count}">1</span>题（<span th:text="${checkquestion.score}">5</span>分）
+                    </label>
+                </div>
+                <div class="ui row">
+                    <p th:text="${checkquestion.content}">qidasldkfasdkljf;aslkdf;alksd 1+1=___</p>
+                </div>
+                <div class="ui row">
+                    <div class="grouped fields">
+                        <label for="answer">选择答案：</label>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="answer" th:name="'x'+${checkStat.count}+'id'+${checkquestion.id}"
+                                       class="checkradio hidden" th:value="${checkquestion.id}+'#正确'" >
+                                <label>正确</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="answer" th:name="'x'+${checkStat.count}+'id'+${checkquestion.id}"
+                                       class="checkradio hidden" th:value="${checkquestion.id}+'#错误'">
+                                <label>错误</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="ui red dividing header">填空题</h4>
+        <div class="ui grid" th:each="blankquestion,blankStat : ${blankquestions}">
+            <div class="ui column">
+                <div class="ui  row">
+                    <label class=""><i class="ui hand point right outline icon"></i>
+                        第<span class="" th:text="${blankStat.count}">1</span>题（<span th:text="${blankquestion.score}">5</span>分）
+                    </label>
+                </div>
+                <div class="ui row">
+                    <p th:text="${blankquestion.content}">qidasldkfasdkljf;aslkdf;alksd 1+1=___</p>
+                </div>
+                <div class="ui row">
+                    <div class="grouped fields">
+                        <label for="answer">答案：</label>
+                        <div class="ui input">
+                            <input type="text" placeholder="" th:name="${blankquestion.id}+'#'" class="blankinput">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+
+        <div class="ui right aligned container">
+            <form id="answer-form" th:action="@{/student/{paperid}/stu-imcomp-paper-fill(paperid=${paper.id})}"  class="ui form "
+                                                      th:object="${Answer}" method="post">
+                <input id="allanswer" name="allanswer" type="hidden" >
+                <button id="submit-answer" class="ui teal submit button" >提交</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<script>
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+    $('.ui.radio.checkbox')
+        .checkbox();
+
+    function getallanswer() {
+        var str ="";
+        $('input[class="checkradio hidden"]:checked').each(function() {
+            str+=$(this).val()+',';
+        });
+        $('input[class="selectradio hidden"]:checked').each(function() {
+            str+=$(this).val()+',';
+        });
+        $('input[class="blankinput"]').each(function() {
+            str+=$(this).attr("name");
+            str+=$(this).val()+',';
+        });
+        return str;
+    };
+
+
+
+    $("#submit-answer").click(function(){
+        var frm = $("#answer-form");
+        $("#allanswer").val(getallanswer());
+        frm.submit();
+        return false;
+    });
+    </script>
+</body>
+</html>
